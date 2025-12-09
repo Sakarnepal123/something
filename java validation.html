@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup Form</title>
+    <style>
+      form {
+        max-width: 450px;
+        margin: auto;
+      }
+
+      input,
+      select {
+        width: 90%;
+        padding: 8px;
+        margin: 8px 0;
+      }
+
+      .error {
+        color: red;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form id="signupForm">
+      <fieldset>
+        <legend>Sign Up Form</legend>
+        <label>Full Name</label>
+        <input type="text" id="fullname" required />
+        <div id="nameError" class="error"></div>
+
+        <label>Email</label>
+        <input type="email" id="email" required />
+        <div id="emailError" class="error"></div>
+
+        <label>Mobile</label>
+        <input type="text" id="mobile" required />
+        <div id="mobileError" class="error"></div>
+
+        <label>Password</label>
+        <input type="password" id="password" required />
+
+        <label>Confirm Password</label>
+        <input type="password" id="confirmPassword" required />
+        <div id="confirmError" class="error"></div>
+
+        <label>Age</label>
+        <input type="number" id="age" required />
+        <div id="ageError" class="error"></div>
+
+        <label>Course</label>
+        <select id="course" required>
+          <option value="">Select Course</option>
+          <option>BCA</option>
+          <option>BSc CSIT</option>
+          <option>BIT</option>
+          <option>Management</option>
+        </select>
+
+        <button type="submit">Signup</button>
+      </fieldset>
+    </form>
+
+    <script>
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (e) {
+          let valid = true;
+
+          document
+            .querySelectorAll(".error")
+            .forEach((el) => (el.textContent = ""));
+
+          const fullname = document.getElementById("fullname").value.trim();
+          if (fullname.length < 2) {
+            document.getElementById("nameError").textContent =
+              "Full name must be at least 2 characters.";
+            valid = false;
+          }
+
+          const email = document.getElementById("email").value.trim();
+          const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+          if (!gmailRegex.test(email)) {
+            document.getElementById("emailError").textContent =
+              "Email must be a @gmail.com address.";
+            valid = false;
+          }
+
+          const mobile = document.getElementById("mobile").value.trim();
+          const mobileRegex = /^982\d{7}$/;
+          if (!mobileRegex.test(mobile)) {
+            document.getElementById("mobileError").textContent =
+              "Mobile must be a valid Ncell prepaid number (982xxxxxxx).";
+            valid = false;
+          }
+
+          const password = document.getElementById("password").value;
+          const passRegex =
+            /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+          if (!passRegex.test(password)) {
+            alert(
+              "Password must be at least 8 characters and include uppercase, lowercase, digit, and special symbol."
+            );
+            valid = false;
+          }
+
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+          if (password !== confirmPassword) {
+            document.getElementById("confirmError").textContent =
+              "Passwords do not match.";
+            valid = false;
+          }
+
+          const age = parseInt(document.getElementById("age").value);
+          if (age < 18 || age > 35) {
+            document.getElementById("ageError").textContent =
+              "Age must be between 18 and 35.";
+            valid = false;
+          }
+
+          if (!valid) e.preventDefault();
+        });
+    </script>
+  </body>
+</html>
